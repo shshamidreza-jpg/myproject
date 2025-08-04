@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rotating Text Clock</title>
+  <style>
+    body {
+      background: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: sans-serif;
+    }
+    .clock {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      border: 8px solid #00f0ff;
+      border-radius: 50%;
+    }
+    .hand {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform-origin: bottom center;
+      transform: translate(-50%, -100%) rotate(0deg);
+      width: 6px;
+      height: 40%;
+      background-color: transparent;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .hand.hour {
+      height: 30%;
+      color: #ffcc00;
+    }
+    .hand.minute {
+      color: #00ffcc;
+    }
+    .hand.second {
+      color: #ff3366;
+    }
+  </style>
+</head>
+<body>
+  <div class="clock">
+    <div class="hand hour" id="hourHand">JUST</div>
+    <div class="hand minute" id="minuteHand">DO IT</div>
+    <div class="hand second" id="secondHand">CREATE YOURSELF</div>
+  </div>
+
+  <script>
+    // Editable Texts
+    const hourText = document.getElementById("hourHand");
+    const minuteText = document.getElementById("minuteHand");
+    const secondText = document.getElementById("secondHand");
+
+    // You can change these texts below
+    hourText.contentEditable = true;
+    minuteText.contentEditable = true;
+    secondText.contentEditable = true;
+
+    function updateClock() {
+      const now = new Date();
+      const second = now.getSeconds();
+      const minute = now.getMinutes();
+      const hour = now.getHours();
+
+      const secondDeg = second * 6;
+      const minuteDeg = minute * 6 + second * 0.1;
+      const hourDeg = ((hour % 12) + minute / 60) * 30;
+
+      document.getElementById("secondHand").style.transform =
+        `translate(-50%, -100%) rotate(${secondDeg}deg)`;
+      document.getElementById("minuteHand").style.transform =
+        `translate(-50%, -100%) rotate(${minuteDeg}deg)`;
+      document.getElementById("hourHand").style.transform =
+        `translate(-50%, -100%) rotate(${hourDeg}deg)`;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
+</body>
+</html>
